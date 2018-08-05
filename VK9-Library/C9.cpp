@@ -205,6 +205,12 @@ HRESULT STDMETHODCALLTYPE C9::CreateDevice(UINT Adapter,D3DDEVTYPE DeviceType,HW
 	workItem->Argument1 = obj;
 	obj->mId = obj->mCommandStreamManager->RequestWorkAndWait(workItem);
 
+	//set buffer type if it is left to default
+	if(obj->mPresentationParameters.BackBufferFormat == D3DFMT_UNKNOWN)
+	{
+		obj->mPresentationParameters.BackBufferFormat = D3DFMT_R5G6B5;
+	}
+
 	//Add implicit swap chain.
 	CSwapChain9* ptr = nullptr; //= new CSwapChain9(this, pPresentationParameters);
 	obj->CreateAdditionalSwapChain(&obj->mPresentationParameters, (IDirect3DSwapChain9**)&ptr);
