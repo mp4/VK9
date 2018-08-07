@@ -564,12 +564,20 @@ RealDevice::~RealDevice()
 	mDevice.destroyShaderModule(mVertShaderModule_XYZ_NORMAL_DIFFUSE_TEX2, nullptr);
 	mDevice.destroyShaderModule(mFragShaderModule_XYZ_NORMAL_DIFFUSE_TEX2, nullptr);
 	mDevice.destroyPipelineCache(mPipelineCache, nullptr);
-	
+
 	mDevice.freeCommandBuffers(mCommandPool, 1, &mCommandBuffer);
 	mDevice.freeCommandBuffers(mCommandPool, 2, mCommandBuffers);
 	mDevice.destroyCommandPool(mCommandPool, nullptr);
 
 	mDevice.destroyDescriptorPool(mDescriptorPool, nullptr);
+	//destroy render targets before the device
+	for(int i=0; i < mRenderTargets.size();i++)
+	{
+		mRenderTargets[i].reset();
+	}
+	mRenderTargets.clear();
+
+
 	mDevice.destroy();
 }
 

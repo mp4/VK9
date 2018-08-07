@@ -855,6 +855,10 @@ void StateManager::CreateSurface(size_t id, void* argument1)
 	{
 		device->SetImageLayout(ptr->mStagingImage, vk::ImageAspectFlagBits::eDepth, vk::ImageLayout::eUndefined, vk::ImageLayout::eGeneral);
 	}
+	else if(realFormat == vk::Format::eD16Unorm)
+	{
+		device->SetImageLayout(ptr->mStagingImage, vk::ImageAspectFlagBits::eDepth, vk::ImageLayout::eUndefined, vk::ImageLayout::eGeneral);
+	}
 	else
 	{
 		device->SetImageLayout(ptr->mStagingImage, vk::ImageAspectFlagBits::eColor, vk::ImageLayout::eUndefined, vk::ImageLayout::eGeneral);

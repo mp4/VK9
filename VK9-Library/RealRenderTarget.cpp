@@ -292,7 +292,7 @@ RealRenderTarget::RealRenderTarget(vk::Device device, RealSurface* colorSurface,
 
 RealRenderTarget::~RealRenderTarget()
 {
-	//BOOST_LOG_TRIVIAL(info) << "RealRenderTarget::~RealRenderTarget";
+	BOOST_LOG_TRIVIAL(info) << "RealRenderTarget::~RealRenderTarget";
 	mDevice.destroyFence(mCommandFence, nullptr);
 	mDevice.destroySemaphore(mPresentCompleteSemaphore, nullptr);
 	mDevice.destroyFramebuffer(mFramebuffer, nullptr);
