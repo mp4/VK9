@@ -130,6 +130,7 @@ vec4 GetGlobalIllumination()
 		specular = specularColor * specularTemp;
 	}
 
-
-	return (ambient + diffuse + specular + emissive);
+	vec4 lightColor = (ambient + diffuse + specular + emissive);
+	lightColor.a = 1.0;
+	return lightColor;
 }

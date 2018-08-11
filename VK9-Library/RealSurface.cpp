@@ -102,7 +102,7 @@ RealSurface::RealSurface(RealDevice* realDevice, CSurface9* surface9, vk::Image*
 		return;
 	}
 
-	BOOST_LOG_TRIVIAL(info) << "RealSurface::RealSurface vkCreateImage: " << static_cast<uint64_t>(mStagingImage);
+	//BOOST_LOG_TRIVIAL(info) << "RealSurface::RealSurface vkCreateImage: " << static_cast<uint64_t>(mStagingImage);
 
 	//vk::DebugMarkerObjectNameInfoEXT objectName;
 	//objectName.object = static_cast<uint64_t>(mStagingImage);
@@ -147,23 +147,20 @@ RealSurface::RealSurface(RealDevice* realDevice, CSurface9* surface9, vk::Image*
 
 	vk::ImageViewCreateInfo imageViewCreateInfo;
 
-	if (surface9->mUsage == D3DUSAGE_DEPTHSTENCIL)
+	if (mRealFormat == vk::Format::eD16UnormS8Uint || mRealFormat == vk::Format::eD24UnormS8Uint || mRealFormat == vk::Format::eD32SfloatS8Uint)
 	{
-		if (mRealFormat == vk::Format::eD16UnormS8Uint || mRealFormat == vk::Format::eD24UnormS8Uint || mRealFormat == vk::Format::eD32SfloatS8Uint)
-		{
-			mSubresource.aspectMask = vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil;
-			imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil;
-		}
-		else if (mRealFormat == vk::Format::eS8Uint)
-		{
-			mSubresource.aspectMask = vk::ImageAspectFlagBits::eStencil;
-			imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eStencil;
-		}
-		else
-		{
-			mSubresource.aspectMask = vk::ImageAspectFlagBits::eDepth;
-			imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
-		}
+		mSubresource.aspectMask = vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil;
+		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil;
+	}
+	else if (mRealFormat == vk::Format::eS8Uint)
+	{
+		mSubresource.aspectMask = vk::ImageAspectFlagBits::eStencil;
+		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eStencil;
+	}
+	else if (mRealFormat == vk::Format::eD16Unorm)
+	{
+		mSubresource.aspectMask = vk::ImageAspectFlagBits::eDepth;
+		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
 	}
 	else
 	{
@@ -173,10 +170,10 @@ RealSurface::RealSurface(RealDevice* realDevice, CSurface9* surface9, vk::Image*
 
 	mSubresource.arrayLayer = 0; //if this is wrong you may get 4294967296.
 
+	mLayouts[0] = {};
 	if (imageCreateInfo.tiling == vk::ImageTiling::eLinear)
 	{
-		//imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
-		//mSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
+		//BOOST_LOG_TRIVIAL(info) << "RealSurface::RealSurface (CSurface9) using format " << (VkFormat)mRealFormat;
 		realDevice->mDevice.getImageSubresourceLayout(mStagingImage, &mSubresource, &mLayouts[0]);
 	}
 
@@ -300,7 +297,7 @@ RealSurface::RealSurface(RealDevice* realDevice, CVolume9* volume9)
 		return;
 	}
 
-	BOOST_LOG_TRIVIAL(info) << "RealSurface::RealSurface vkCreateImage: " << static_cast<uint64_t>(mStagingImage);
+	//BOOST_LOG_TRIVIAL(info) << "RealSurface::RealSurface vkCreateImage: " << static_cast<uint64_t>(mStagingImage);
 
 	vk::MemoryRequirements memoryRequirements;
 	realDevice->mDevice.getImageMemoryRequirements(mStagingImage, &memoryRequirements);
@@ -328,6 +325,7 @@ RealSurface::RealSurface(RealDevice* realDevice, CVolume9* volume9)
 	mSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
 	mSubresource.arrayLayer = 0; //if this is wrong you may get 4294967296.
 
+	//BOOST_LOG_TRIVIAL(info) << "RealSurface::RealSurface (CVolume9) using format " << (VkFormat)mRealFormat;
 	realDevice->mDevice.getImageSubresourceLayout(mStagingImage, &mSubresource, &mLayouts[0]);
 }
 

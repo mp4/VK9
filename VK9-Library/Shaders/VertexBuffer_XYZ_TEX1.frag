@@ -70,7 +70,7 @@ vec2 getTextureCoord(int index)
 
 void main() 
 {
-	vec4 temp;
+	vec4 temp = vec4(1.0,1.0,1.0,1.0);
 	vec4 result = vec4(1.0,1.0,1.0,1.0); //On stage 0 CURRENT is the same as DIFFUSE
 
 	if(textureCount>0)

@@ -410,7 +410,14 @@ struct DeviceState
 	BOOL mAreLightsDirty = true;
 
 	//IDirect3DDevice9::SetMaterial
-	D3DMATERIAL9 mMaterial = {};
+	D3DMATERIAL9 mMaterial = 
+	{
+		/*1.0f,1.0f,1.0f,1.0f,
+		1.0f,1.0f,1.0f,1.0f,
+		1.0f,1.0f,1.0f,1.0f,
+		1.0f,1.0f,1.0f,1.0f,
+		1.0f*/
+	};
 	BOOL mIsMaterialDirty = true;
 
 	//IDirect3DDevice9::SetNPatchMode

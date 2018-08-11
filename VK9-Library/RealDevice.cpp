@@ -397,6 +397,7 @@ RealDevice::RealDevice(vk::Instance instance, vk::PhysicalDevice physicalDevice,
 	int32_t x = 0;
 	int32_t y = 0;
 
+	//BOOST_LOG_TRIVIAL(info) << "RealDevice::RealDevice using format " << (VkFormat)textureFormat;
 	mDevice.getImageSubresourceLayout(mImage, &imageSubresource, &subresourceLayout);
 
 	data = mDevice.mapMemory(mDeviceMemory, 0, memoryAllocateInfo.allocationSize, vk::MemoryMapFlags()).value;
@@ -416,8 +417,8 @@ RealDevice::RealDevice(vk::Instance instance, vk::PhysicalDevice physicalDevice,
 	}
 
 	mDevice.unmapMemory(mDeviceMemory);
-	mImageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-	SetImageLayout(mImage, vk::ImageAspectFlagBits::eColor, vk::ImageLayout::eUndefined, vk::ImageLayout::eShaderReadOnlyOptimal);
+	mImageLayout = vk::ImageLayout::eGeneral;
+	SetImageLayout(mImage, vk::ImageAspectFlagBits::eColor, vk::ImageLayout::eUndefined, vk::ImageLayout::eGeneral);
 
 	vk::ImageViewCreateInfo imageViewCreateInfo2;
 	imageViewCreateInfo2.image = mImage;
@@ -475,7 +476,7 @@ RealDevice::RealDevice(vk::Instance instance, vk::PhysicalDevice physicalDevice,
 	{
 		mDeviceState.mDescriptorImageInfo[i].sampler = mSampler;
 		mDeviceState.mDescriptorImageInfo[i].imageView = mImageView;
-		mDeviceState.mDescriptorImageInfo[i].imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+		mDeviceState.mDescriptorImageInfo[i].imageLayout = vk::ImageLayout::eGeneral;
 	}
 
 	//initialize vulkan/d3d9 viewport and scissor structures.

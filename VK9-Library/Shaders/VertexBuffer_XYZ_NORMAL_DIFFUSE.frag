@@ -71,8 +71,21 @@ vec2 getTextureCoord(int index)
 
 void main() 
 {
-   uFragColor = vec4(1.0,1.0,1.0,1.0);
+	vec4 temp = vec4(1.0,1.0,1.0,1.0);
+	vec4 result = vec4(1.0,1.0,1.0,1.0); 
 
+	if(colorVertex)
+	{
+		result = diffuseColor; //On stage 0 CURRENT is the same as DIFFUSE
+	}
+	
+	processStage(Constant_0, Result_0,
+	result, temp, result, temp,
+	colorOperation_0, colorArgument1_0, colorArgument2_0, colorArgument0_0,
+	alphaOperation_0, alphaArgument1_0, alphaArgument2_0, alphaArgument0_0);
+
+	uFragColor = result;
+   
 	if(lighting)
 	{	
 		if(shadeMode == D3DSHADE_GOURAUD)

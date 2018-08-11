@@ -341,11 +341,11 @@ void RenderManager::UpdateTexture(std::shared_ptr<RealDevice> realDevice, IDirec
 
 	if (pDestinationTexture->GetType() != D3DRTYPE_CUBETEXTURE)
 	{
-		ReallySetImageLayout(commandBuffer, target->mImage, vk::ImageAspectFlags(), vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal, 1, 0, 1);
+		ReallySetImageLayout(commandBuffer, target->mImage, vk::ImageAspectFlags(), vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eGeneral, 1, 0, 1);
 	}
 	else
 	{
-		ReallySetImageLayout(commandBuffer, target->mImage, vk::ImageAspectFlags(), vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal, 1, 0, 6);
+		ReallySetImageLayout(commandBuffer, target->mImage, vk::ImageAspectFlags(), vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eGeneral, 1, 0, 6);
 	}
 
 	commandBuffer.end();
@@ -458,13 +458,13 @@ void RenderManager::BeginDraw(std::shared_ptr<RealDevice> realDevice, std::share
 			}
 
 			targetSampler.sampler = request->Sampler;
-			targetSampler.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+			targetSampler.imageLayout = vk::ImageLayout::eGeneral;
 		}
 		else
 		{
 			targetSampler.sampler = realDevice->mSampler;
 			targetSampler.imageView = realDevice->mImageView;
-			targetSampler.imageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+			targetSampler.imageLayout = vk::ImageLayout::eGeneral;
 		}
 
 	}

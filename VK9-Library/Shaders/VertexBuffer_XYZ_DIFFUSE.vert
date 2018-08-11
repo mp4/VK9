@@ -69,63 +69,68 @@ void main()
 				diffuseColor = Convert(attr);
 			break;
 			case D3DMCS_COLOR2:
-				diffuseColor = vec4(0);
+				diffuseColor = vec4(1.0);
 			break;
 			default:
-				diffuseColor = vec4(0);
+				diffuseColor = vec4(1.0);
 			break;
 		}
+		
+		switch(ambientMaterialSource)
+		{
+			case D3DMCS_MATERIAL:
+				ambientColor = material.Ambient;
+			break;
+			case D3DMCS_COLOR1:
+				ambientColor = Convert(attr);
+			break;
+			case D3DMCS_COLOR2:
+				ambientColor = vec4(1.0);
+			break;
+			default:
+				ambientColor = vec4(1.0);
+			break;
+		}
+
+		switch(specularMaterialSource)
+		{
+			case D3DMCS_MATERIAL:
+				specularColor = material.Specular;
+			break;
+			case D3DMCS_COLOR1:
+				specularColor = Convert(attr);
+			break;
+			case D3DMCS_COLOR2:
+				specularColor = vec4(1.0);;
+			break;
+			default:
+				specularColor = vec4(1.0);
+			break;
+		}
+
+		switch(emissiveMaterialSource)
+		{
+			case D3DMCS_MATERIAL:
+				emissiveColor = material.Emissive;
+			break;
+			case D3DMCS_COLOR1:
+				emissiveColor = Convert(attr);
+			break;
+			case D3DMCS_COLOR2:
+				emissiveColor = vec4(1.0);
+			break;
+			default:
+				emissiveColor = vec4(1.0);
+			break;
+		}		
 	}
 	else
 	{
 		diffuseColor = material.Diffuse;
+		ambientColor = material.Ambient;
+		specularColor = material.Specular;
+		emissiveColor = material.Emissive;
 	}
 
-	switch(ambientMaterialSource)
-	{
-		case D3DMCS_MATERIAL:
-			ambientColor = material.Ambient;
-		break;
-		case D3DMCS_COLOR1:
-			ambientColor = material.Ambient;
-		break;
-		case D3DMCS_COLOR2:
-			ambientColor = material.Ambient;
-		break;
-		default:
-			ambientColor = material.Ambient;
-		break;
-	}
 
-	switch(specularMaterialSource)
-	{
-		case D3DMCS_MATERIAL:
-			specularColor = material.Specular;
-		break;
-		case D3DMCS_COLOR1:
-			specularColor = material.Specular;
-		break;
-		case D3DMCS_COLOR2:
-			specularColor = material.Specular;
-		break;
-		default:
-			specularColor = material.Specular;
-		break;
-	}
-
-	switch(emissiveMaterialSource)
-	{
-		case D3DMCS_MATERIAL:
-			emissiveColor = material.Emissive;
-		break;
-		case D3DMCS_COLOR1:
-			emissiveColor = material.Emissive;
-		break;
-		case D3DMCS_COLOR2:
-			emissiveColor = material.Emissive;
-		break;
-		default:
-			emissiveColor = material.Emissive;
-		break;
-	}
 }

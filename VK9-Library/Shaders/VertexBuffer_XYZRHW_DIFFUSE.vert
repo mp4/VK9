@@ -95,57 +95,60 @@ void main()
 				diffuseColor = vec4(0);
 			break;
 		}
+		
+		switch(ambientMaterialSource)
+		{
+			case D3DMCS_MATERIAL:
+				ambientColor = material.Ambient;
+			break;
+			case D3DMCS_COLOR1:
+				ambientColor = material.Ambient;
+			break;
+			case D3DMCS_COLOR2:
+				ambientColor = material.Ambient;
+			break;
+			default:
+				ambientColor = material.Ambient;
+			break;
+		}
+
+		switch(specularMaterialSource)
+		{
+			case D3DMCS_MATERIAL:
+				specularColor = material.Specular;
+			break;
+			case D3DMCS_COLOR1:
+				specularColor = material.Specular;
+			break;
+			case D3DMCS_COLOR2:
+				specularColor = material.Specular;
+			break;
+			default:
+				specularColor = material.Specular;
+			break;
+		}
+
+		switch(emissiveMaterialSource)
+		{
+			case D3DMCS_MATERIAL:
+				emissiveColor = material.Emissive;
+			break;
+			case D3DMCS_COLOR1:
+				emissiveColor = material.Emissive;
+			break;
+			case D3DMCS_COLOR2:
+				emissiveColor = material.Emissive;
+			break;
+			default:
+				emissiveColor = material.Emissive;
+			break;
+		}		
 	}
 	else
 	{
 		diffuseColor = material.Diffuse;
-	}
-
-	switch(ambientMaterialSource)
-	{
-		case D3DMCS_MATERIAL:
-			ambientColor = material.Ambient;
-		break;
-		case D3DMCS_COLOR1:
-			ambientColor = material.Ambient;
-		break;
-		case D3DMCS_COLOR2:
-			ambientColor = material.Ambient;
-		break;
-		default:
-			ambientColor = material.Ambient;
-		break;
-	}
-
-	switch(specularMaterialSource)
-	{
-		case D3DMCS_MATERIAL:
-			specularColor = material.Specular;
-		break;
-		case D3DMCS_COLOR1:
-			specularColor = material.Specular;
-		break;
-		case D3DMCS_COLOR2:
-			specularColor = material.Specular;
-		break;
-		default:
-			specularColor = material.Specular;
-		break;
-	}
-
-	switch(emissiveMaterialSource)
-	{
-		case D3DMCS_MATERIAL:
-			emissiveColor = material.Emissive;
-		break;
-		case D3DMCS_COLOR1:
-			emissiveColor = material.Emissive;
-		break;
-		case D3DMCS_COLOR2:
-			emissiveColor = material.Emissive;
-		break;
-		default:
-			emissiveColor = material.Emissive;
-		break;
+		ambientColor = material.Ambient;
+		specularColor = material.Specular;
+		emissiveColor = material.Emissive;
 	}
 }
