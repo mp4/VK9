@@ -71,6 +71,7 @@ struct ConvertedShader
 //https://msdn.microsoft.com/en-us/library/windows/hardware/ff552738(v=vs.85).aspx
 union DestinationParameterToken
 {
+	DestinationParameterToken() { memset(this, 0, sizeof(DestinationParameterToken)); }
 	struct
 	{
 		uint32_t RegisterNumber : 11;
@@ -88,6 +89,7 @@ union DestinationParameterToken
 
 union OpcodeDescription
 {
+	OpcodeDescription() { memset(this, 0, sizeof(OpcodeDescription)); }
 	struct
 	{
 		spv::Op Opcode : 16;
@@ -109,6 +111,7 @@ union GeneratorMagicNumber
 //In DXBC can have float's in the DWORD stream so it was either this or break alias rules.
 union Token
 {
+	Token() { memset(this, 0, sizeof(Token)); }
 	float f;
 	uint32_t i;
 	DestinationParameterToken DestinationParameterToken;
@@ -208,6 +211,7 @@ struct TypeDescriptionComparator
 
 inline uint32_t Pack(uint32_t wordCount, spv::Op opcode)
 {
+	assert(wordCount);
 	OpcodeDescription opcodeDescription;
 
 	opcodeDescription.WordCount = wordCount;
@@ -425,7 +429,7 @@ protected:
 	vk::Device& mDevice;
 	ShaderConstantSlots& mShaderConstantSlots;
 public:
-	ShaderConverter(vk::Device& device, ShaderConstantSlots& shaderConstantSlots);
+	explicit ShaderConverter(vk::Device& device, ShaderConstantSlots& shaderConstantSlots);
 	~ShaderConverter();
 
 	ConvertedShader Convert(uint32_t* shader);

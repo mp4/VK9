@@ -32,8 +32,8 @@ misrepresented as being the original software.
 class CVertexShader9 : public IDirect3DVertexShader9
 {
 public:
-	CVertexShader9(CDevice9* device, const DWORD* pFunction);
-	~CVertexShader9();
+	explicit CVertexShader9(CDevice9* device, const DWORD* pFunction);
+	virtual ~CVertexShader9();
 
 	size_t mId;
 	std::shared_ptr<CommandStreamManager> mCommandStreamManager;

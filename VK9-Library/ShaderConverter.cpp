@@ -813,11 +813,7 @@ uint32_t ShaderConverter::GetIdByRegister(const Token& token, _D3DSHADER_PARAM_R
 		if (this->mMajorVersion == 3)
 		{
 			registerName = "v" + std::to_string(registerNumber);
-			stringWordSize = 2 + std::max(registerName.length() / 4, (size_t)1);
-			if (registerName.length() % 4 == 0)
-			{
-				stringWordSize++;
-			}
+			stringWordSize = 2 + ((registerName.length() + 4) / 4);
 			mNameInstructions.push_back(Pack(stringWordSize, spv::OpName));
 			mNameInstructions.push_back(id); //target (Id)
 			PutStringInVector(registerName, mNameInstructions); //Literal
@@ -829,11 +825,7 @@ uint32_t ShaderConverter::GetIdByRegister(const Token& token, _D3DSHADER_PARAM_R
 			if (registerType == D3DSPR_INPUT)
 			{
 				registerName = "oD" + std::to_string(registerNumber);
-				stringWordSize = 2 + std::max(registerName.length() / 4, (size_t)1);
-				if (registerName.length() % 4 == 0)
-				{
-					stringWordSize++;
-				}
+				stringWordSize = 2 + ((registerName.length() + 4) / 4);
 				mNameInstructions.push_back(Pack(stringWordSize, spv::OpName));
 				mNameInstructions.push_back(id); //target (Id)
 				PutStringInVector(registerName, mNameInstructions); //Literal
@@ -843,11 +835,7 @@ uint32_t ShaderConverter::GetIdByRegister(const Token& token, _D3DSHADER_PARAM_R
 			else
 			{
 				registerName = "oT" + std::to_string(registerNumber);
-				stringWordSize = 2 + std::max(registerName.length() / 4, (size_t)1);
-				if (registerName.length() % 4 == 0)
-				{
-					stringWordSize++;
-				}
+				stringWordSize = 2 + ((registerName.length() + 4) / 4);
 				mNameInstructions.push_back(Pack(stringWordSize, spv::OpName));
 				mNameInstructions.push_back(id); //target (Id)
 				PutStringInVector(registerName, mNameInstructions); //Literal
@@ -2484,6 +2472,21 @@ void ShaderConverter::CombineSpirVOpCodes()
 	mInstructions.insert(std::end(mInstructions), std::begin(mEntryPointInstructions), std::end(mEntryPointInstructions));
 	mInstructions.insert(std::end(mInstructions), std::begin(mExecutionModeInstructions), std::end(mExecutionModeInstructions));
 
+#ifndef NDEBUG
+
+	BOOST_LOG_TRIVIAL(info) << "offsets " << mCapabilityInstructions.size() << "," << mExtensionInstructions.size() << "," << mImportExtendedInstructions.size() << "," <<
+		mMemoryModelInstructions.size() << "," << mEntryPointInstructions.size() << "," << mExecutionModeInstructions.size() << "," <<
+
+		mStringInstructions.size() << "," << mSourceExtensionInstructions.size() << "," << mSourceInstructions.size() << "," <<
+		mSourceContinuedInstructions.size() << "," << mNameInstructions.size() << "," << mMemberNameInstructions.size() << "," <<
+		
+		mDecorateInstructions.size() << "," << mMemberDecorateInstructions.size() << "," << mGroupDecorateInstructions.size() << "," <<
+		mGroupMemberDecorateInstructions.size() << "," << 
+		
+		mTypeInstructions.size() << "," << mFunctionDeclarationInstructions.size() << "," <<
+		mFunctionDefinitionInstructions.size();
+#endif
+
 	mInstructions.insert(std::end(mInstructions), std::begin(mStringInstructions), std::end(mStringInstructions));
 	mInstructions.insert(std::end(mInstructions), std::begin(mSourceExtensionInstructions), std::end(mSourceExtensionInstructions));
 	mInstructions.insert(std::end(mInstructions), std::begin(mSourceInstructions), std::end(mSourceInstructions));
@@ -2543,12 +2546,20 @@ void ShaderConverter::CreateSpirVModule()
 	//End Debug Code
 #endif
 
-	vk::Result result;
+	vk::Result result = vk::Result::eErrorInvalidShaderNV;
 	vk::ShaderModuleCreateInfo moduleCreateInfo;
-	moduleCreateInfo.codeSize = mInstructions.size() * sizeof(uint32_t);
-	moduleCreateInfo.pCode = mInstructions.data(); //Why is this uint32_t* if the size is in bytes?
+	moduleCreateInfo.setCodeSize(mInstructions.size() * sizeof(uint32_t));
+	moduleCreateInfo.setPCode(mInstructions.data()); //Why is this uint32_t* if the size is in bytes?
 	//moduleCreateInfo.flags = 0;
-	result = mDevice.createShaderModule(&moduleCreateInfo, nullptr, &mConvertedShader.ShaderModule);
+	try
+	{
+		result = mDevice.createShaderModule(&moduleCreateInfo, nullptr, &mConvertedShader.ShaderModule);
+	}
+	catch(std::exception & e)
+	{
+		BOOST_LOG_TRIVIAL(fatal) << "Driver error" << e.what();
+	}
+	
 
 	if (result != vk::Result::eSuccess)
 	{
@@ -3015,11 +3026,8 @@ void ShaderConverter::Process_DCL_Vertex()
 			break;
 		}
 
-		stringWordSize = 2 + std::max(registerName.length() / 4, (size_t)1);
-		if (registerName.length() % 4 == 0)
-		{
-			stringWordSize++;
-		}
+		//TODO problem area
+		stringWordSize = 2 + ((registerName.length() + 4) / 4);
 		mNameInstructions.push_back(Pack(stringWordSize, spv::OpName));
 		mNameInstructions.push_back(tokenId); //target (Id)
 		PutStringInVector(registerName, mNameInstructions); //Literal

@@ -607,6 +607,7 @@ struct Transformations
 
 union PushConstants
 {
+	PushConstants() { memset(this, 0, sizeof(PushConstants)); }
 	float Floats[64] = {};
 	uint32_t Integers[64];
 	BOOL Booleans[64];
