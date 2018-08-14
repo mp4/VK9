@@ -18,25 +18,17 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 */
 
-//#include <any>
-#include <boost/any.hpp>
 #include <atomic>
 #include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <queue>
 #include <boost/lockfree/queue.hpp>
 #include <boost/program_options.hpp>
 #include <boost/program_options/parsers.hpp>
 
 #include "Perf_RenderManager.h"
-#include "Perf_ProcessQueue.h"
 #include "WorkItemType.h"
 #include "WorkItem.h"
 
-#include "readerwriterqueue.h"
-
-#include "d3d9.h"
+//#include "readerwriterqueue.h"
 
 #ifndef COMMANDSTREAMMANAGER_H
 #define COMMANDSTREAMMANAGER_H

@@ -21,10 +21,7 @@ misrepresented as being the original software.
 #ifndef CSURFACE9_H
 #define CSURFACE9_H
 
-#include <memory>
 #include "d3d9.h" // Base class: IDirect3DSurface9
-#include <vulkan/vulkan.h>
-#include "CResource9.h"
 #include "Perf_CommandStreamManager.h"
 
 class CTexture9;

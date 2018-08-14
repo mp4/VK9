@@ -19,7 +19,6 @@ misrepresented as being the original software.
 */
 
 #include "Perf_StateManager.h"
-#include <vulkan/vulkan.hpp>
 
 #ifndef RENDERMANAGER_H
 #define RENDERMANAGER_H

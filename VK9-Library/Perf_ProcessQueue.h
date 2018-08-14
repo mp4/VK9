@@ -18,13 +18,6 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <atomic>
-#include "WorkItemType.h"
-#include "d3d9.h"
-
-#include "Utilities.h"
-#include "CTypes.h"
-
 #ifndef PROCESSQUEUE_H
 #define PROCESSQUEUE_H
 

@@ -25,6 +25,7 @@ misrepresented as being the original software.
 #include "CVolumeTexture9.h"
 #include "CDevice9.h"
 #include "CSurface9.h"
+#include "CVolume9.h"
 
 #include "Utilities.h"
 

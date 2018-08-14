@@ -526,7 +526,7 @@ inline vk::Format ConvertFormat(D3DFORMAT format) noexcept
 	case D3DFMT_R5G6B5:
 		return (vk::Format)VK_FORMAT_B5G6R5_UNORM_PACK16;
 	case D3DFMT_X1R5G5B5:
-		return (vk::Format)VK_FORMAT_UNDEFINED; //B5G5R5X1_UNORM
+		return (vk::Format)VK_FORMAT_B5G5R5A1_UNORM_PACK16; //B5G5R5X1_UNORM
 	case D3DFMT_A1R5G5B5:
 		return (vk::Format)VK_FORMAT_B5G5R5A1_UNORM_PACK16;
 	case D3DFMT_A4R4G4B4:

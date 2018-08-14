@@ -25,6 +25,7 @@ misrepresented as being the original software.
 //#include <vulkan/vulkan.h>
 #include <vulkan/vulkan.hpp>
 #include <vector>
+#include <map>
 #include <stack>
 #include <boost/log/trivial.hpp>
 #include <boost/container/flat_map.hpp>
@@ -178,26 +179,40 @@ struct TypeDescription
 
 	bool operator <(const TypeDescription &value) const
 	{
-		switch (this->PrimaryType)
+		if (this->PrimaryType < value.PrimaryType)
 		{
-		case spv::OpTypeBool:
-		case spv::OpTypeInt:
-		case spv::OpTypeFloat:
-		case spv::OpTypeSampler:
-		case spv::OpTypeImage:
-		case spv::OpTypeVoid:
-			return this->PrimaryType < value.PrimaryType;
-		case spv::OpTypeVector:
-		case spv::OpTypeMatrix:
-			return this->PrimaryType < value.PrimaryType || this->SecondaryType < value.SecondaryType || this->ComponentCount < value.ComponentCount;
-		case spv::OpTypePointer:
-			return this->PrimaryType < value.PrimaryType || this->SecondaryType < value.SecondaryType || this->TernaryType < value.TernaryType || this->ComponentCount < value.ComponentCount || this->StorageClass < value.StorageClass;
-		case spv::OpTypeFunction:
-			return this->PrimaryType < value.PrimaryType || this->SecondaryType < value.SecondaryType || this->TernaryType < value.TernaryType;
-		default:
-			BOOST_LOG_TRIVIAL(warning) << "operator < - Unsupported data type " << this->PrimaryType;
-			return false;
+			return true;
 		}
+		else if (this->PrimaryType == value.PrimaryType)
+		{
+			if (this->SecondaryType < value.SecondaryType)
+			{
+				return true;
+			}
+			else if (this->SecondaryType == value.SecondaryType)
+			{
+				if (this->TernaryType < value.TernaryType)
+				{
+					return true;
+				}
+				else if (this->TernaryType == value.TernaryType)
+				{
+					if (this->ComponentCount < value.ComponentCount)
+					{
+						return true;
+					}
+					else if (this->ComponentCount == value.ComponentCount)
+					{
+						if (this->StorageClass < value.StorageClass)
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 };
 
@@ -444,6 +459,7 @@ private:
 	std::vector<uint32_t> mOutputRegisters;
 	boost::container::flat_map<_D3DDECLUSAGE, uint32_t> mOutputRegisterUsages;
 
+	//boost::container::flat_map<TypeDescription, uint32_t> mTypeIdPairs;
 	boost::container::flat_map<TypeDescription, uint32_t> mTypeIdPairs;
 	boost::container::flat_map<uint32_t, TypeDescription> mIdTypePairs;
 
@@ -538,6 +554,9 @@ private:
 	void GenerateConstantBlock();
 	void CombineSpirVOpCodes();
 	void CreateSpirVModule();
+
+	void PushLoad(uint32_t resultTypeId, uint32_t resultId, uint32_t pointerId);
+	void PushStore(uint32_t pointerId, uint32_t objectId);
 
 	void Push(spv::Op code);
 	void Push(spv::Op code, uint32_t argument1);

@@ -21,19 +21,9 @@ misrepresented as being the original software.
 #ifndef BUFFERMANAGER_H
 #define BUFFERMANAGER_H
 
-#include <vulkan/vulkan.h>
-#include <vulkan/vk_sdk_platform.h>
-
 class BufferManager
 {
-	//VkResult mResult = VK_SUCCESS;
 
-	//CDevice9* mDevice = nullptr;
-	//int32_t mTextureWidth = 0;
-	//int32_t mTextureHeight = 0;
-
-	//VkDescriptorSet mLastDescriptorSet = VK_NULL_HANDLE;
-	//VkPipeline mLastVkPipeline = VK_NULL_HANDLE;
 };
 
 #endif // BUFFERMANAGER_H

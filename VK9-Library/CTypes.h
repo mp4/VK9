@@ -40,18 +40,6 @@ class CPixelShader9;
 class CVertexShader9;
 class CTexture9;
 
-struct Monitor
-{
-	HMONITOR hMonitor = NULL;
-	HDC hdcMonitor = NULL;
-	uint32_t Height = 0;
-	uint32_t Width = 0;
-	uint32_t RefreshRate = 0;
-	uint32_t PixelBits = 0;
-	uint32_t ColorPlanes = 0;
-
-};
-
 struct Vertex
 {
 	float x, y, z; // Position of vertex in 3D space

@@ -22,9 +22,7 @@ misrepresented as being the original software.
 #define CSTATEBLOCK9_H
 
 #include "d3d9.h"
-#include <vulkan/vulkan.h>
 #include "Perf_CommandStreamManager.h"
-#include "CTypes.h"
 
 class CDevice9;
 

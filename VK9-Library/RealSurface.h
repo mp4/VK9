@@ -22,11 +22,7 @@ misrepresented as being the original software.
 #include <vulkan/vk_sdk_platform.h>
 #include <boost/container/small_vector.hpp>
 
-#include "Utilities.h"
-#include "CTypes.h"
-
 #include "RealDevice.h"
-#include "RealInstance.h"
 
 #ifndef REALSURFACE_H
 #define REALSURFACE_H

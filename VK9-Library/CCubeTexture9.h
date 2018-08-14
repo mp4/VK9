@@ -21,10 +21,8 @@ misrepresented as being the original software.
 #ifndef CCUBETEXTURE9_H
 #define CCUBETEXTURE9_H
 
-#include <memory>
 #include <boost/container/small_vector.hpp>
 #include "d3d9.h" // Base class: IDirect3DCubeTexture9
-#include <vulkan/vulkan.h>
 #include "CBaseTexture9.h"
 #include "CSurface9.h"
 #include "Perf_CommandStreamManager.h"

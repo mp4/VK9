@@ -32,6 +32,14 @@ misrepresented as being the original software.
 #include "CVertexDeclaration9.h"
 #include "CVertexShader9.h"
 #include "CStateBlock9.h"
+#include "CSwapChain9.h"
+#include "CVertexBuffer9.h"
+#include "CIndexBuffer9.h"
+#include "CPixelShader9.h"
+#include "CVertexShader9.h"
+#include "CQuery9.h"
+#include "CRenderTargetSurface9.h"
+#include "CVolume9.h"
 
 #include "Utilities.h"
 

@@ -21,10 +21,7 @@ misrepresented as being the original software.
 #ifndef CVOLUME9_H
 #define CVOLUME9_H
 
-#include <memory>
 #include "d3d9.h"
-#include <vulkan/vulkan.h>
-#include "CResource9.h"
 #include "Perf_CommandStreamManager.h"
 
 class CDevice9;

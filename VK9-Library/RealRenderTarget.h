@@ -21,12 +21,11 @@ misrepresented as being the original software.
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vk_sdk_platform.h>
 #include <boost/container/small_vector.hpp>
+#include "d3d9.h"
+#include "CTypes.h" //Needed for DeviceState
 
-#include "Utilities.h"
-#include "CTypes.h"
-
-#include "RealSurface.h"
-#include "RealTexture.h"
+struct RealSurface;
+struct RealTexture;
 
 #ifndef REALRENDERTARGET_H
 #define REALRENDERTARGET_H

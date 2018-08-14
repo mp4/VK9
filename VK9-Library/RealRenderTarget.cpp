@@ -19,6 +19,10 @@ misrepresented as being the original software.
 */
 
 #include "RealRenderTarget.h"
+#include "RealSurface.h"
+#include "RealTexture.h"
+#include "Utilities.h"
+
 
 RealRenderTarget::RealRenderTarget(vk::Device device, RealTexture* colorTexture, RealSurface* colorSurface, RealSurface* depthSurface)
 	: mDevice(device),

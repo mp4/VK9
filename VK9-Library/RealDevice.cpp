@@ -20,6 +20,7 @@ misrepresented as being the original software.
 
 #include "RealDevice.h"
 #include "RealRenderTarget.h"
+#include "Utilities.h"
 
 RealDevice::RealDevice(vk::Instance instance, vk::PhysicalDevice physicalDevice, int32_t width, int32_t height)
 	: mInstance(instance),

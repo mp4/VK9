@@ -21,13 +21,11 @@ misrepresented as being the original software.
 #ifndef CVOLUMETEXTURE9_H
 #define CVOLUMETEXTURE9_H
 
-#include <memory>
-#include <boost/container/small_vector.hpp>
 #include "d3d9.h" // Base class: IDirect3DCubeTexture9
-#include <vulkan/vulkan.h>
-#include "CBaseTexture9.h"
-#include "CVolume9.h"
+#include <vector>
 #include "Perf_CommandStreamManager.h"
+
+class CVolume9;
 
 class CVolumeTexture9 : public IDirect3DVolumeTexture9
 {

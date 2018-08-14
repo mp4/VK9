@@ -26,10 +26,6 @@ misrepresented as being the original software.
 #include <boost/container/small_vector.hpp>
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vk_sdk_platform.h>
-#include <Eigen/Dense>
-
-#include "Utilities.h"
-#include "CTypes.h"
 
 #include "ShaderConverter.h"
 

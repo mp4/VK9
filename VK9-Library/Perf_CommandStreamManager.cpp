@@ -19,6 +19,7 @@ misrepresented as being the original software.
 */
 
 #include "Perf_CommandStreamManager.h"
+#include "Perf_ProcessQueue.h"
 
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>

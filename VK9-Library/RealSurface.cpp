@@ -22,6 +22,8 @@ misrepresented as being the original software.
 #include "CSurface9.h"
 #include "CVolume9.h"
 
+#include "Utilities.h"
+
 RealSurface::RealSurface(RealDevice* realDevice, CSurface9* surface9, vk::Image* parentImage)
 	: mRealDevice(realDevice)
 {

@@ -21,10 +21,7 @@ misrepresented as being the original software.
 #ifndef CINDEXBUFFER9_H
 #define CINDEXBUFFER9_H
 
-#include <memory>
 #include "d3d9.h" // Base class: IDirect3DIndexBuffer9
-#include <vulkan/vulkan.h>
-#include "CResource9.h"
 #include "Perf_CommandStreamManager.h"
 
 class CIndexBuffer9 : public IDirect3DIndexBuffer9

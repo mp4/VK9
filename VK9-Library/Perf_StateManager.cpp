@@ -32,6 +32,10 @@ misrepresented as being the original software.
 #include "CTexture9.h"
 #include "CCubeTexture9.h"
 #include "CVolumeTexture9.h"
+#include "CVertexBuffer9.h"
+#include "CIndexBuffer9.h"
+#include "CQuery9.h"
+
 #include "Utilities.h"
 
 #include <boost/log/core.hpp>

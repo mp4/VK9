@@ -22,11 +22,10 @@ misrepresented as being the original software.
 #define CSWAPCHAIN9_H
 
 #include "d3d9.h" // Base class: IDirect3DSurface9
-#include <vulkan/vulkan.h>
-
-#include "CSurface9.h"
+#include "Perf_CommandStreamManager.h"
 
 class CDevice9;
+class CSurface9;
 
 class CSwapChain9 : public IDirect3DSwapChain9
 {

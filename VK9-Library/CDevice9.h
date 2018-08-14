@@ -21,31 +21,14 @@ misrepresented as being the original software.
 #ifndef CDEVICE9_H
 #define CDEVICE9_H
 
-#include "CTypes.h"
-
 #include "d3d9.h" // Base class: IDirect3DDevice9
-#include <vulkan/vulkan.h>
-#include <vulkan/vk_sdk_platform.h>
 #include <boost/container/small_vector.hpp>
-//#include <boost/container/flat_map.hpp>
-
-#include "CVertexDeclaration9.h"
-#include "CSurface9.h"
-#include "CPixelShader9.h"
-#include "CVertexShader9.h"
-#include "CVertexBuffer9.h"
-#include "CIndexBuffer9.h"
-#include "CQuery9.h"
-#include "CBaseTexture9.h"
-#include "CSwapChain9.h"
-#include "CRenderTargetSurface9.h"
-
-//#include "BufferManager.h"
-//#include "GarbageManager.h"
-
 #include "Perf_CommandStreamManager.h"
 
 class C9;
+class CSwapChain9;
+class CVertexBuffer9;
+class CIndexBuffer9;
 
 class CDevice9 : public IDirect3DDevice9
 {	

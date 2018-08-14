@@ -27,24 +27,24 @@ misrepresented as being the original software.
 
 #include "C9.h"
 #include "CDevice9.h"
+#include "CSwapChain9.h"
+#include "CSurface9.h"
 
 #include "Utilities.h"
 
 #define APP_SHORT_NAME "VK9"
+
+#include "PrivateTypes.h"
 
 //#ifdef _DEBUG
 //	#include <vld.h>
 //#endif
 
 C9::C9()
-	: mMonitors(4)
 {
 	mCommandStreamManager = std::make_shared<CommandStreamManager>();
 
 	BOOST_LOG_TRIVIAL(info) << "C9::C9";
-
-	//WINAPI to get monitor info
-	EnumDisplayMonitors(GetDC(NULL), NULL, MonitorEnumProc, (LPARAM)&mMonitors);
 }
 
 C9::~C9()
@@ -117,16 +117,16 @@ HRESULT STDMETHODCALLTYPE C9::CheckDepthStencilMatch(UINT Adapter,D3DDEVTYPE Dev
 
 HRESULT STDMETHODCALLTYPE C9::CheckDeviceFormat(UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT AdapterFormat,DWORD Usage,D3DRESOURCETYPE RType,D3DFORMAT CheckFormat)
 {
-	//TODO: Implement.
-	
-	BOOST_LOG_TRIVIAL(warning) << "C9::CheckDeviceFormat is not implemented!" << AdapterFormat << " " << CheckFormat;
-
-	if (CheckFormat == D3DFMT_UNKNOWN || ConvertFormat(CheckFormat) != vk::Format::eUndefined)
+	if (CheckFormat == D3DFMT_UNKNOWN || (ConvertFormat(AdapterFormat) != vk::Format::eUndefined && ConvertFormat(CheckFormat) != vk::Format::eUndefined))
 	{
+		BOOST_LOG_TRIVIAL(warning) << "C9::CheckDeviceFormat (D3D_OK) AdapterFormat: " << AdapterFormat << " CheckFormat: " << CheckFormat;
+
 		return D3D_OK;
 	}
 	else
 	{
+		BOOST_LOG_TRIVIAL(warning) << "C9::CheckDeviceFormat (D3DERR_NOTAVAILABLE) AdapterFormat: " << AdapterFormat << " CheckFormat: " << CheckFormat;
+
 		return D3DERR_NOTAVAILABLE;
 	}
 }
@@ -151,12 +151,12 @@ HRESULT STDMETHODCALLTYPE C9::CheckDeviceMultiSampleType(UINT Adapter,D3DDEVTYPE
 		return D3DERR_INVALIDCALL;
 	}
 
-	//if (SurfaceFormat != D3DFMT_X8R8G8B8 || DeviceType != D3DDEVTYPE_HAL)
-	//{
-	//	return D3DERR_INVALIDCALL;
-	//}
-
 	if (MultiSampleType > 16)
+	{
+		return D3DERR_NOTAVAILABLE;
+	}
+
+	if (ConvertFormat(SurfaceFormat) == vk::Format::eUndefined)
 	{
 		return D3DERR_NOTAVAILABLE;
 	}
@@ -300,6 +300,11 @@ HRESULT STDMETHODCALLTYPE C9::GetAdapterDisplayMode(UINT Adapter,D3DDISPLAYMODE 
 
 	if (monitor.PixelBits != 32)
 	{
+		BOOST_LOG_TRIVIAL(info) << Adapter;
+		BOOST_LOG_TRIVIAL(info) << monitor.RefreshRate;
+		BOOST_LOG_TRIVIAL(info) << monitor.Height;
+		BOOST_LOG_TRIVIAL(info) << monitor.Width;
+
 		BOOST_LOG_TRIVIAL(info) << "C9::GetAdapterDisplayMode Unknown pixel bit format : " << monitor.PixelBits; //Revisit
 	}
 
@@ -334,11 +339,12 @@ UINT STDMETHODCALLTYPE C9::GetAdapterModeCount(UINT Adapter,D3DFORMAT Format)
 
 HMONITOR STDMETHODCALLTYPE C9::GetAdapterMonitor(UINT Adapter)
 {
-	//TODO: implement GetAdapterMonitor
+	if (mMonitors.size() > Adapter)
+	{
+		return mMonitors[0].hMonitor;
+	}
 
-	BOOST_LOG_TRIVIAL(warning) << "C9::GetAdapterMonitor is not implemented!";
-
-	return mMonitors[0].hMonitor; 
+	return mMonitors[Adapter].hMonitor;
 }
 
 
@@ -379,8 +385,12 @@ BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMoni
 
 	if (dwData != NULL)
 	{
-		boost::container::small_vector<Monitor, 3>* monitors;
-		monitors = (boost::container::small_vector<Monitor, 3>*)dwData;
+		if (hMonitor==0)
+		{
+			return false;
+		}
+		std::vector<Monitor>* monitors;
+		monitors = (std::vector<Monitor>*)dwData;
 		monitors->push_back(monitor);
 
 		BOOST_LOG_TRIVIAL(info) << "MonitorEnumProc HMONITOR: " << monitor.hMonitor;

@@ -21,13 +21,11 @@ misrepresented as being the original software.
 #ifndef CTEXTURE9_H
 #define CTEXTURE9_H
 
-#include <memory>
 #include <boost/container/small_vector.hpp>
 #include "d3d9.h" // Base class: IDirect3DTexture9
-#include <vulkan/vulkan.h>
-#include "CBaseTexture9.h"
-#include "CSurface9.h"
 #include "Perf_CommandStreamManager.h"
+
+class CSurface9;
 
 class CTexture9 : public IDirect3DTexture9
 {

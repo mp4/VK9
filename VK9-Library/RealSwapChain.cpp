@@ -19,6 +19,7 @@ misrepresented as being the original software.
 */
 
 #include "RealSwapChain.h"
+#include "Utilities.h"
 
 RealSwapChain::RealSwapChain(vk::Instance instance, vk::PhysicalDevice physicalDevice, vk::Device device, HWND windowHandle, uint32_t width, uint32_t height)
 	: mInstance(instance),

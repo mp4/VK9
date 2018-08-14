@@ -22,14 +22,19 @@ misrepresented as being the original software.
 #define C9_H
 
 #include "d3d9.h" // Base class: IDirect3D9
-#include <vulkan/vulkan.h>
-#include <vulkan/vk_sdk_platform.h>
-#include <boost/container/small_vector.hpp>
-#include <boost/program_options.hpp>
-//#include <boost/log/utility/setup/file.hpp>
-//#include <boost/log/sinks/sync_frontend.hpp>
-#include "CTypes.h"
+#include <vector>
 #include "Perf_CommandStreamManager.h"
+
+struct Monitor
+{
+	HMONITOR hMonitor = NULL;
+	HDC hdcMonitor = NULL;
+	uint32_t Height = 0;
+	uint32_t Width = 0;
+	uint32_t RefreshRate = 0;
+	uint32_t PixelBits = 0;
+	uint32_t ColorPlanes = 0;
+};
 
 class C9 : public IDirect3D9
 {
@@ -44,7 +49,7 @@ public:
 
 	uint32_t mDisplayCount = 0;
 	
-	boost::container::small_vector<Monitor,3> mMonitors;
+	std::vector<Monitor> mMonitors;
 	bool mValidationPresent = false;
 
 public:

@@ -21,9 +21,9 @@ misrepresented as being the original software.
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vk_sdk_platform.h>
 #include <memory>
+#include <vector>
 
-#include "Utilities.h"
-#include "CTypes.h"
+#include "CTypes.h" //needed for DeviceState
 
 struct RealRenderTarget;
 struct SamplerRequest;
